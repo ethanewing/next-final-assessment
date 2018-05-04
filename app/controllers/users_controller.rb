@@ -61,6 +61,15 @@ class UsersController < ApplicationController
     end
   end
 
+  def login
+    @user = User.find_by_email(params[:user][:email])
+    if @user.encrypted_password == params[:user][:encrypted_password]
+      give_token
+    else
+      redirect_to home_url
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -69,6 +78,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.fetch(:user, {})
+      params.require(:user).permit(:username, :first_name, :last_name, :bio, :encrypted_password, :email)
     end
 end
