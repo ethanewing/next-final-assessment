@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :save_login_state, :only => [:new, :create]
 
   # GET /users
   # GET /users.json
@@ -28,6 +29,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
+        session[:user_id] = @user.id
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else
@@ -61,6 +63,15 @@ class UsersController < ApplicationController
     end
   end
 
+  def login
+    @user = User.find_by_email(params[:user][:email])
+    if @user.encrypted_password == params[:user][:encrypted_password]
+      give_token
+    else
+      redirect_to home_url
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -69,6 +80,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.fetch(:user, {})
+      params.require(:user).permit(:username, :first_name, :last_name, :bio, :encrypted_password, :email, :role)
     end
 end
