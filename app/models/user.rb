@@ -11,9 +11,9 @@ class User < ApplicationRecord
   validates :encrypted_password, presence: true
   before_save :encrypt_password
 
-  def self.authenticate(name, password)
-    user = find_by_user_name(name)
-    if user && user.encrypted_password == BCrypt::Engine.hash_secret(password, user.password_salt)
+  def self.authenticate(email, password)
+    user = User.find_by(email: email)
+    if user && user.email == email && user.encrypted_password == BCrypt::Engine.hash_secret(password, user.salt)
       user
     else
       nil

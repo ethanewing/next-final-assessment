@@ -30,6 +30,8 @@
     <%= form.label "About Me" %>
     <%= form.text_area :bio, type: "text", rows: 3 %>
 
+    <%= form.hidden_field :role, value: params[:role] %>
+
     <%= form.submit %>
   </div>
 <% end %>
