@@ -5,7 +5,14 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    respond_to do |format|
+      @users = User.where(nil)
+      if !params[:search].blank?
+        @users = @users.search(params[:search][:query]) if !params[:search][:query].blank?
+      end
+      format.json
+      format.html
+    end
   end
 
   # GET /users/1

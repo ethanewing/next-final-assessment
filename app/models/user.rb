@@ -20,6 +20,10 @@ class User < ApplicationRecord
     end
   end
 
+  def self.search(query)
+    where("username ILIKE ? OR first_name ILIKE ? OR last_name ILIKE ?", "#{query}%", "#{query}%", "#{query}%")
+  end
+
   def encrypt_password
     if encrypted_password.present?
       self.salt = BCrypt::Engine.generate_salt
