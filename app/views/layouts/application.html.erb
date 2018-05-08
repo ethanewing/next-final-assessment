@@ -9,7 +9,7 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light navbar-light navbar-mint">
       <a class="navbar-brand" href="/">Imago</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -18,7 +18,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="/pictures">Discover<span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Link</a>
@@ -34,13 +34,13 @@
               <a class="dropdown-item" href="#">Something else here</a>
             </div>
           </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Disabled</a>
+          <li class="nav-item form-inline">
+            <%= button_to "Upload new picture!", new_picture_path, method: "get", style: "left: 20px;", class: "btn btn-small" if @current_user %>
           </li>
-          <%= form_for :search, url: users_path, method: "get", html: {id: "search-form", class: "form-inline"} do |form| %>
+          <%= form_for :search, url: users_path, method: "get", html: {id: "search-form", class: "nav-item form-inline"} do |form| %>
             <%= form.text_field :query, placeholder: "Search for users!", style: "width: 300px;", list: "list", class: "form-control mr-sm-1" %>
             <datalist id="list"></datalist>
-            <%= form.submit "Search" %>
+            <%= form.submit "Search", class: "btn btn-small" %>
           <% end %>
         </ul>
         <ul class="navbar-nav">
@@ -48,10 +48,10 @@
             <% if @current_user %>
               <a href="<%= user_path(@current_user) %>"><%= image_tag @current_user.avatar.url, id: "current-user-profile-picture", style: "border-radius: 40px;", height: 40, width: 40 %></a>
               <%= content_tag :span, "#{@current_user.username}" %>
-              <%= button_to "Sign Out", logout_path, class: "btn btn-small", method: "get" %>
+              <%= button_to "Sign Out", logout_path, class: "btn btn-sm", method: "get" %>
             <% else %>
-              <%= button_to "Sign In", login_path, class: "btn btn-small", method: "get" %>
-              <%= button_to "Sign Up", new_user_path, class: "btn btn-small", method: "get" %>
+              <%= button_to "Sign In", login_path, class: "btn btn-sm", method: "get" %>
+              <%= button_to "Sign Up", new_user_path, class: "btn btn-sm", method: "get" %>
             <% end %>
           </li>
         </ul>
@@ -101,3 +101,9 @@
 
   });
 </script>
+
+<style>
+  .navbar-mint {
+    background-color: #98ff98;
+  }
+</style>

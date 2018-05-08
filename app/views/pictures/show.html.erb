@@ -1,0 +1,12 @@
+<div class="card" style="width: 30vw;">
+  <%= image_tag @picture.path.url, width: 400, class: "img-fluid card-img-top" %>
+  <div class="card-body">
+    <h5 class="card-title"><%= User.find(@picture.user_id).username %></h5>
+    <p class="card-text"><%= @picture.description %></p>
+    <p class="card-text"><small class="text-muted"><%= User.find(@picture.user_id).username %></small></p>
+    <p class="card-text"><small class="text-muted"><%= @picture.created_at.asctime %></small></p>
+  </div>
+</div>
+
+<%= link_to 'Edit', edit_picture_path(@picture) %> |
+<%= link_to 'Back', pictures_path %>

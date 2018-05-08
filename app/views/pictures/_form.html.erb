@@ -1,0 +1,35 @@
+<%= form_for @picture do |form| %>
+  <% if picture.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(picture.errors.count, "error") %> prohibited this picture from being saved:</h2>
+
+      <ul>
+      <% picture.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label "Upload your file!" %>
+    <%= form.file_field :path %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :location %>
+    <%= form.text_field :location %>
+  </div>
+
+  <%= form.hidden_field :user_id, value: @current_user.id %>
+  <%= form.hidden_field :likes, value: 0 %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
