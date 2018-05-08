@@ -18,7 +18,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Link</a>
@@ -37,12 +37,24 @@
           <li class="nav-item">
             <a class="nav-link disabled" href="#">Disabled</a>
           </li>
+          <%= form_for :search, url: users_path, method: "get", html: {id: "search-form", class: "form-inline"} do |form| %>
+            <%= form.text_field :query, placeholder: "Search for users!", style: "width: 300px;", list: "list", class: "form-control mr-sm-1" %>
+            <datalist id="list"></datalist>
+            <%= form.submit "Search" %>
+          <% end %>
         </ul>
-        <%= form_for :search, url: users_path, method: "get", html: {id: "search-form", class: "form-inline"} do |form| %>
-          <%= form.text_field :query, placeholder: "Search by tag or location!", style: "width: 300px;", list: "list", class: "form-control mr-sm-1" %>
-          <datalist id="list"></datalist>
-          <%= form.submit "Search" %>
-        <% end %>
+        <ul class="navbar-nav">
+          <li class="nav-item form-inline">
+            <% if @current_user %>
+              <a href="<%= user_path(@current_user) %>"><%= image_tag @current_user.avatar.url, id: "current-user-profile-picture", style: "border-radius: 40px;", height: 40, width: 40 %></a>
+              <%= content_tag :span, "#{@current_user.username}" %>
+              <%= button_to "Sign Out", logout_path, class: "btn btn-small", method: "get" %>
+            <% else %>
+              <%= button_to "Sign In", login_path, class: "btn btn-small", method: "get" %>
+              <%= button_to "Sign Up", new_user_path, class: "btn btn-small", method: "get" %>
+            <% end %>
+          </li>
+        </ul>
       </div>
     </nav>
     <div id="flash">

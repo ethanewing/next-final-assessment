@@ -1,4 +1,29 @@
-<p id="notice"><%= notice %></p>
+<div class="container">
+  <div id="profile-info">
+    <div class="row">
+      <div class="profile-picture col-md-4"><%= image_tag @user.avatar.url, style: "border-radius: 40px;", height: 200, width: 200, class: "img-fluid mx-auto d-block" %></div>
+      <div class="col-md-4">
+        <br><br>
+        <div><%= @user.username %></div>
+        <% 3.times do %><br><% end %>
+        <div><%= "#{@user.first_name} #{@user.last_name}" %></div>
+      </div>
+      <div class="col-md-4">
+        <br><br>
+        <% if @current_user.id == @user.id %>
+          <div><%= button_to "Edit Profile", edit_user_path(@user.id), method: "get", class: "btn btn-primary btn-small" %></div>
+        <% else %>
+          <div><%= button_to "Follow", class: "btn btn-primary btn-small" %></div>
+        <% end %>
+    </div>
+  </div>
+</div>
 
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<style>
+  #profile-info {
+    padding: 10px;
+    border-bottom-width: thin;
+    border-bottom-style: groove;
+    border-bottom-color: rgba(200, 200, 200, .5);
+  }
+</style>
