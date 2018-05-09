@@ -1,6 +1,7 @@
-<h1>Pictures</h1>
-
 <div class="container-fluid">
+  <div>
+    <h3>See what other people are sharing!</h3>
+  </div>
   <div class="row">
     <% @pictures.each do |picture| %>
       <% user = User.find(picture.user_id) %>
@@ -8,7 +9,7 @@
         <%= image_tag picture.path.url, width: 400, class: "img-fluid card-img-top" %>
         <div class="card-body">
           <div class="card-title">
-            <span><%= image_tag user.avatar.url, style: "border-radius: 40px", height: 20, width: 20 %></span>
+            <span><%= image_tag user.avatar.url || "default_profile_picture.jpg", style: "border-radius: 40px", height: 20, width: 20 %></span>
             <span><%= link_to "#{user.username}", user_path(user) %></span>
           </div>
           <p class="card-text"><%= picture.description %></p>
@@ -20,5 +21,3 @@
     <% end %>
   </div>
 </div>
-
-<%= link_to 'New Picture', new_picture_path %>

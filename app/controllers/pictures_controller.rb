@@ -6,6 +6,24 @@ class PicturesController < ApplicationController
   # GET /pictures.json
   def index
     @pictures = Picture.all
+    # if !params[:search].blank? && !params[:search][:location].blank?
+    #   url = "https://maps.googleapis.com/maps/api/place/textsearch/json?input=#{params[:search][:location]}&key=AIzaSyB3FXtpUa5MQ_rX_frJUEWx9hGJSwb0qJ4"
+    #   response = open(url).read
+    #   response_json = JSON.parse(response)
+    #   location = response_json["results"][0]["geometry"]["location"]
+    #   url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=#{location["lat"]},#{location["lng"]}&radius=1500&key=AIzaSyB3FXtpUa5MQ_rX_frJUEWx9hGJSwb0qJ4"
+    #   response = open(url).read
+    #   response_json = JSON.parse(response)
+    #   render json: response_json
+    #
+    #
+    #   # response_json["predictions"].each do |guess|
+    #   #   @pictures = @pictures.location_search(guess)
+    #   # end
+    # else
+    #   p "bloop"
+    # end
+    # @pictures
   end
 
   # GET /pictures/1
