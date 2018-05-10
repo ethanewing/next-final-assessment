@@ -1,8 +1,49 @@
-<h1>Welcome!</h1>
 <% if @current_user %>
-  <div><%= "Welcome, #{@current_user.first_name} #{@current_user.last_name}!" %></div>
-  <div><%= link_to "Sign out", logout_path %></div>
+  <div class="container">
+    <div>
+      <h3>Friends' Activity</h3>
+    </div>
+    <div>
+      <% connections = [] %>
+      <% @current_user.relationships.each do |f| %>
+        <% connections << f.followed_id %>
+      <% end %>
+      <% pictures = Picture.where(user_id: connections).order("created_at DESC") %>
+      <% pictures.each do |picture| %>
+        <% user = User.find(picture.user_id) %>
+        <div class="card">
+          <div class="card-header form-inline">
+            <span><%= image_tag user.avatar.url || "default_profile_picture.jpg", style: "border-radius: 40px", height: 40, width: 40 %></span>
+            <span style="padding-left: 5px;">
+              <div>
+                <%= link_to "#{user.username}", user_path(user) %>
+              </div>
+              <div>
+                <small class="text-muted"><%= link_to "#{picture.location.titleize}", {controller: "pictures", action: "index", location: picture.location} if picture.location %></small>
+              </div>
+            </span>
+          </div>
+          <a href="<%= picture_path(picture) %>"><%= image_tag picture.path.url, class: "img-fluid card-img-top" %></a>
+          <div class="card-body">
+            <p class="card-text"><%= picture.description %></p>
+          </div>
+          <div class="card-footer">
+            <p class="card-text"><small class="text-muted"><%= "Uploaded at: #{picture.created_at.asctime}" %></small></p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
 <% else %>
   <div><%= link_to "Sign Up", new_user_path(role: "regular") %></div>
   <div><%= link_to "Sign In", login_path %></div>
 <% end %>
+
+
+<style>
+  .card {
+    max-width: 40vw;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+</style>

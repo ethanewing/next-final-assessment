@@ -2,22 +2,10 @@ class SessionsController < ApplicationController
   before_action :authenticate_user, :only => [:home, :profile, :setting]
   before_action :save_login_state, :only => [:login, :login_attempt]
 
-  def login
-  end
-
-  def home
-  end
-
   def logout
     session[:user_id] = nil
     flash[:notice] = "Successfully logged out"
     redirect_to :action => "login"
-  end
-
-  def profile
-  end
-
-  def setting
   end
 
   def login_attempt

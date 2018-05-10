@@ -1,12 +1,11 @@
 Rails.application.routes.draw do
+  resources :relationships, only: [:create, :destroy]
+
   resources :pictures
   root "welcome#index"
 
   get '/login' => "sessions#login", as: "login"
   get '/logout' => "sessions#logout", as: "logout"
-  get 'sessions/home'
-  get 'sessions/profile'
-  get 'sessions/setting'
   post '/login' => "sessions#login_attempt"
 
   resources :users

@@ -13,8 +13,10 @@
         <% if @current_user %>
           <% if @current_user.id == @user.id %>
             <div><%= button_to "Edit Profile", edit_user_path(@user.id), method: "get", class: "btn btn-primary btn-small" %></div>
+          <% elsif !@current_user.relationships.find_by(followed_id: @user.id) %>
+            <div><%= button_to "Follow", {controller: "relationships", action: "create", user_id: @current_user.id, followed_id: @user.id}, remote: true, class: "btn btn-primary btn-small" %></div>
           <% else %>
-            <div><%= button_to "Follow", class: "btn btn-primary btn-small" %></div>
+            <div><%= button_to "Unfollow", {controller: "relationships", action: "destroy", user_id: @current_user.id, followed_id: @user.id}, method: "delete", remote: true, data: {confirm: "Are you sure you want to unfollow?"}, class: "btn btn-primary btn-small" %></div>
           <% end %>
         <% end %>
       </div>
@@ -35,7 +37,7 @@
               </div>
             </span>
           </div>
-          <%= image_tag picture.path.url, class: "img-fluid card-img-top" %>
+          <a href="<%= picture_path(picture) %>"><%= image_tag picture.path.url, class: "img-fluid card-img-top" %></a>
           <div class="card-body">
             <p class="card-text"><%= picture.description %></p>
           </div>
