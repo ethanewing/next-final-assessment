@@ -10,11 +10,40 @@
       </div>
       <div class="col-md-4">
         <br><br>
-        <% if @current_user.id == @user.id %>
-          <div><%= button_to "Edit Profile", edit_user_path(@user.id), method: "get", class: "btn btn-primary btn-small" %></div>
-        <% else %>
-          <div><%= button_to "Follow", class: "btn btn-primary btn-small" %></div>
+        <% if @current_user %>
+          <% if @current_user.id == @user.id %>
+            <div><%= button_to "Edit Profile", edit_user_path(@user.id), method: "get", class: "btn btn-primary btn-small" %></div>
+          <% else %>
+            <div><%= button_to "Follow", class: "btn btn-primary btn-small" %></div>
+          <% end %>
         <% end %>
+      </div>
+    </div>
+  </div>
+  <div id="user-photos">
+    <div class="row">
+      <% @user.pictures.each do |picture| %>
+        <div class="card">
+          <div class="card-header form-inline">
+            <span><%= image_tag @user.avatar.url || "default_profile_picture.jpg", style: "border-radius: 40px", height: 40, width: 40 %></span>
+            <span style="padding-left: 5px;">
+              <div>
+                <%= link_to "#{@user.username}", user_path(@user) %>
+              </div>
+              <div>
+                <small class="text-muted"><%= link_to "#{picture.location.titleize}", {controller: "pictures", action: "index", location: picture.location} if picture.location %></small>
+              </div>
+            </span>
+          </div>
+          <%= image_tag picture.path.url, class: "img-fluid card-img-top" %>
+          <div class="card-body">
+            <p class="card-text"><%= picture.description %></p>
+          </div>
+          <div class="card-footer">
+            <p class="card-text"><small class="text-muted"><%= "Uploaded at: #{picture.created_at.asctime}" %></small></p>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
@@ -25,5 +54,15 @@
     border-bottom-width: thin;
     border-bottom-style: groove;
     border-bottom-color: rgba(200, 200, 200, .5);
+  }
+
+  #user-photos {
+    margin-top: 20px;
+    padding: 10px;
+  }
+
+  .card {
+    max-width: 25vw;
+    margin: 10px;
   }
 </style>

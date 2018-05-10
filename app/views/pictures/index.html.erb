@@ -1,17 +1,24 @@
-<div class="container-fluid">
+<div class="container">
   <div>
     <h3>See what other people are sharing!</h3>
   </div>
-  <div class="row">
+  <div>
     <% @pictures.each do |picture| %>
       <% user = User.find(picture.user_id) %>
-      <div class="card mb-3 col-md-4" style="width: 30vw;">
-        <%= image_tag picture.path.url, width: 400, class: "img-fluid card-img-top" %>
+      <div class="card">
+        <div class="card-header form-inline">
+          <span><%= image_tag user.avatar.url || "default_profile_picture.jpg", style: "border-radius: 40px", height: 40, width: 40 %></span>
+          <span style="padding-left: 5px;">
+            <div>
+              <%= link_to "#{user.username}", user_path(user) %>
+            </div>
+            <div>
+              <small class="text-muted"><%= link_to "#{picture.location.titleize}", {controller: "pictures", action: "index", location: picture.location} if picture.location %></small>
+            </div>
+          </span>
+        </div>
+        <a href="<%= picture_path(picture) %>"><%= image_tag picture.path.url, class: "img-fluid card-img-top" %></a>
         <div class="card-body">
-          <div class="card-title">
-            <span><%= image_tag user.avatar.url || "default_profile_picture.jpg", style: "border-radius: 40px", height: 20, width: 20 %></span>
-            <span><%= link_to "#{user.username}", user_path(user) %></span>
-          </div>
           <p class="card-text"><%= picture.description %></p>
         </div>
         <div class="card-footer">
@@ -21,3 +28,11 @@
     <% end %>
   </div>
 </div>
+
+<style>
+  .card {
+    max-width: 40vw;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+</style>
